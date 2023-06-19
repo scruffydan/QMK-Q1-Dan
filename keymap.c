@@ -31,6 +31,17 @@ tap_dance_action_t tap_dance_actions[] = {
 };
 
 
+// Setup Custom tapping terms
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case TD(TD_RSFT_CAPS):
+            return  100;
+        default:
+            return TAPPING_TERM;
+    }
+};
+
+
 enum layers{
     MAC_BASE,
     MAC_FN,

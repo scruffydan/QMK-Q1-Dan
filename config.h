@@ -1,5 +1,6 @@
 // Tap turns to hold after number of ms
 #define TAPPING_TERM 1000
+#define TAPPING_TERM_PER_KEY
 // https://github.com/qmk/qmk_firmware/blob/master/docs/tap_hold.md#tap-or-hold-decision-modes
 #define HOLD_ON_OTHER_KEY_PRESS
 
