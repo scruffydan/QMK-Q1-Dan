@@ -8,7 +8,7 @@
 // RGB Matrix Animation modes.
 // For full list of effects, see:
 // https://docs.qmk.fm/#/feature_rgb_matrix?id=rgb-matrix-effects
-#undef ENABLE_RGB_MATRIX_ALPHAS_MODS
+#define ENABLE_RGB_MATRIX_ALPHAS_MODS
 #undef ENABLE_RGB_MATRIX_GRADIENT_UP_DOWN
 #undef ENABLE_RGB_MATRIX_GRADIENT_LEFT_RIGHT
 #undef ENABLE_RGB_MATRIX_BREATHING
