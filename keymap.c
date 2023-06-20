@@ -35,7 +35,7 @@ tap_dance_action_t tap_dance_actions[] = {
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case TD(TD_RSFT_CAPS):
-            return  100;
+            return  200;
         default:
             return TAPPING_TERM;
     }
