@@ -4,11 +4,12 @@
 // https://github.com/qmk/qmk_firmware/blob/master/docs/tap_hold.md#tap-or-hold-decision-modes
 #define HOLD_ON_OTHER_KEY_PRESS
 
+
 // Set default RGB Mode
 #define RGB_MATRIX_DEFAULT_MODE RGB_MATRIX_ALPHAS_MODS
 #define RGB_MATRIX_DEFAULT_SAT 255
-#define RGB_MATRIX_DEFAULT_HUE 16  // Sets non-modifer key color
-#define RGB_MATRIX_DEFAULT_SPD 240  //Sets modifer key color. Acts as an offset from RGB_MATRIX_DEFAULT_HUE
+#define RGB_MATRIX_DEFAULT_HUE 21  // Sets non-modifer key color
+#define RGB_MATRIX_DEFAULT_SPD 235  //Sets modifer key color. Acts as an offset from RGB_MATRIX_DEFAULT_HUE
 
 // RGB Matrix Animation modes.
 // For full list of effects, see:
