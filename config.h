@@ -4,6 +4,8 @@
 // https://github.com/qmk/qmk_firmware/blob/master/docs/tap_hold.md#tap-or-hold-decision-modes
 #define HOLD_ON_OTHER_KEY_PRESS
 
+// NKRO off by default
+#undef FORCE_NKRO
 
 // Set default RGB Mode
 #define RGB_MATRIX_DEFAULT_MODE RGB_MATRIX_ALPHAS_MODS
