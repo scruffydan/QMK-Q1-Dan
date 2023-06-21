@@ -13,6 +13,9 @@
 #define RGB_MATRIX_DEFAULT_HUE 21  // Sets non-modifer key color
 #define RGB_MATRIX_DEFAULT_SPD 235  //Sets modifer key color. Acts as an offset from RGB_MATRIX_DEFAULT_HUE
 
+//RGB Timeout
+#define RGB_MATRIX_TIMEOUT 600000 //number of milliseconds to wait until rgb automatically turns off
+
 // RGB Matrix Animation modes.
 // For full list of effects, see:
 // https://docs.qmk.fm/#/feature_rgb_matrix?id=rgb-matrix-effects
