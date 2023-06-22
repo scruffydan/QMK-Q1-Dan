@@ -18,7 +18,11 @@
 //#include "keychron_common.h"
 
 //Custom Keycodes
-
+enum custom_keycodes {
+  RGB_RESET = SAFE_RANGE,
+  // Other keycodes
+//example1,
+};
 
 //Tap Dance Declarations
 enum {
@@ -26,6 +30,21 @@ enum {
     TD_HOME_END,
 };
 
+
+
+bool process_record_user(uint16_t keycode, keyrecord_t* record) {
+    switch (keycode) {
+        case RGB_RESET:  // Sets the RGB Matrix mode back to the default
+            if (record->event.pressed) {
+                rgb_matrix_mode(RGB_MATRIX_ALPHAS_MODS);
+                rgb_matrix_sethsv(21, 255, 255);
+                rgb_matrix_set_speed(235);
+            }
+          return false;
+        // Other macros
+      }
+    return true;
+}
 
 //Tap Dance Definitions
 tap_dance_action_t tap_dance_actions[] = {
@@ -69,8 +88,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [MAC_FN] = LAYOUT_ansi_82(
         _______,            KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   _______,  RGB_TOG,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
-        RGB_TOG,  RGB_MOD,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
-        _______,  RGB_RMOD, _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,            _______,
+        RGB_TOG,  RGB_MOD,  RGB_VAI,  RGB_HUI,  RGB_SAI,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
+        RGB_RESET,RGB_RMOD, RGB_VAD,  RGB_HUD,  RGB_SAD,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,            _______,
         _______,            _______,  _______,  _______,  _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,            _______,  _______,
         _______,  _______,  _______,                                _______,                                _______,  _______,  _______,  _______,  _______,  _______),
 
@@ -85,8 +104,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [WIN_FN] = LAYOUT_ansi_82(
         _______,            KC_BRID,  KC_BRIU,  _______,  _______,  RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,  _______,  RGB_TOG,
         _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
-        RGB_TOG,  RGB_MOD,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
-        _______,  RGB_RMOD, _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,            _______,
+        RGB_TOG,  RGB_MOD,  RGB_VAI,  RGB_HUI,  RGB_SAI,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
+        RGB_RESET,RGB_RMOD, RGB_VAD,  RGB_HUD,  RGB_SAD,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,            _______,
         _______,            _______,  _______,  _______,  _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,            _______,  _______,
         _______,  _______,  _______,                                _______,                                _______,  _______,  _______,  _______,  _______,  _______)
 };
