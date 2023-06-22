@@ -86,12 +86,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LCTL,         KC_LOPT,  KC_LCMD,                                KC_SPC,                                 KC_RCMD,  MO(MAC_FN),KC_ROPT,  KC_LEFT,  KC_DOWN,  KC_RGHT),
 
     [MAC_FN] = LAYOUT_ansi_82(
-        _______,            KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   _______,  RGB_TOG,
-        _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
-        RGB_TOG,  RGB_MOD,  RGB_VAI,  RGB_HUI,  RGB_SAI,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
-        RGB_RESET,RGB_RMOD, RGB_VAD,  RGB_HUD,  RGB_SAD,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,            _______,
-        _______,            _______,  _______,  _______,  _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,            _______,  _______,
-        _______,  _______,  _______,                                _______,                                _______,  _______,  _______,  _______,  _______,  _______),
+        _______,            KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,        _______,  RGB_TOG,
+        _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,                 _______,
+        RGB_TOG,  RGB_MOD,  RGB_VAI,  RGB_HUI,  RGB_SAI,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,                 _______,
+        RGB_RESET,RGB_RMOD, RGB_VAD,  RGB_HUD,  RGB_SAD,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,                 _______,
+        _______,            _______,  _______,  _______,  _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,            TG(WIN_BASE),  _______,
+        _______,  _______,  _______,                                _______,                                _______,  _______,  _______,  _______,       _______,  _______),
 
     [WIN_BASE] = LAYOUT_ansi_82(
         KC_ESC,          KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,    KC_DEL,             KC_MUTE,
@@ -102,12 +102,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_LCTL,         KC_LWIN,  KC_LALT,                                KC_SPC,                                 KC_RALT,  MO(WIN_FN),KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT),
 
     [WIN_FN] = LAYOUT_ansi_82(
-        _______,            KC_BRID,  KC_BRIU,  _______,  _______,  RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,  _______,  RGB_TOG,
-        _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
-        RGB_TOG,  RGB_MOD,  RGB_VAI,  RGB_HUI,  RGB_SAI,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,
-        RGB_RESET,RGB_RMOD, RGB_VAD,  RGB_HUD,  RGB_SAD,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,            _______,
-        _______,            _______,  _______,  _______,  _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,            _______,  _______,
-        _______,  _______,  _______,                                _______,                                _______,  _______,  _______,  _______,  _______,  _______)
+        _______,            KC_BRID,  KC_BRIU,  _______,  _______,  RGB_VAD,  RGB_VAI,  KC_MPRV,  KC_MPLY,  KC_MNXT,  KC_MUTE,  KC_VOLD,  KC_VOLU,       _______,  RGB_TOG,
+        _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,                 _______,
+        RGB_TOG,  RGB_MOD,  RGB_VAI,  RGB_HUI,  RGB_SAI,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,                 _______,
+        RGB_RESET,RGB_RMOD, RGB_VAD,  RGB_HUD,  RGB_SAD,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            _______,                 _______,
+        _______,            _______,  _______,  _______,  _______,  _______,  NK_TOGG,  _______,  _______,  _______,  _______,            TO(MAC_BASE),  _______,
+        _______,  _______,  _______,                                _______,                                _______,  _______,  _______,  _______,       _______,  _______)
+
 };
 
 #if defined(ENCODER_MAP_ENABLE)
@@ -133,7 +134,15 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     for (uint8_t i = led_min; i < led_max; i++) {
         // Layer indicator
         switch(get_highest_layer(layer_state|default_layer_state)) {
-            case 2:
+            case WIN_BASE:
+                rgb_matrix_set_color(72, RGB_WHITE);
+                rgb_matrix_set_color(73, RGB_WHITE);
+                rgb_matrix_set_color(74, RGB_WHITE);
+                rgb_matrix_set_color(76, RGB_WHITE);
+                rgb_matrix_set_color(77, RGB_WHITE);
+                rgb_matrix_set_color(78, RGB_WHITE);
+                break;
+            case WIN_FN:
                 rgb_matrix_set_color(72, RGB_WHITE);
                 rgb_matrix_set_color(73, RGB_WHITE);
                 rgb_matrix_set_color(74, RGB_WHITE);
