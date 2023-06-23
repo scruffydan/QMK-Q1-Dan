@@ -137,13 +137,6 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
         // Layer indicator
         switch(get_highest_layer(layer_state|default_layer_state)) {
             case WIN_BASE:
-                rgb_matrix_set_color(72, RGB_WHITE);
-                rgb_matrix_set_color(73, RGB_WHITE);
-                rgb_matrix_set_color(74, RGB_WHITE);
-                rgb_matrix_set_color(76, RGB_WHITE);
-                rgb_matrix_set_color(77, RGB_WHITE);
-                rgb_matrix_set_color(78, RGB_WHITE);
-                break;
             case WIN_FN:
                 rgb_matrix_set_color(72, RGB_WHITE);
                 rgb_matrix_set_color(73, RGB_WHITE);
@@ -156,22 +149,22 @@ bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
                 break;
         }
 
-    // Setup indicator for Fn Layers
+    // Setup indicator for Fn Layers  with configured keycodes
     if (get_highest_layer(layer_state) > 0  &&
         // Exclude any non-default Layers Eg. WIN_BASE
-        (get_highest_layer(layer_state) != WIN_BASE)) {
+        get_highest_layer(layer_state) != WIN_BASE) {
         uint8_t layer = get_highest_layer(layer_state);
         for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
             for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
                 uint8_t index = g_led_config.matrix_co[row][col];
                 if (index >= led_min && index < led_max && index != NO_LED &&
                 keymap_key_to_keycode(layer, (keypos_t){col,row}) > KC_TRNS) {
+                    // This is where we set the color
                     rgb_matrix_set_color(index, RGB_BLUE);
                 }
             }
         }
     }
-
 
     }
     return false;
