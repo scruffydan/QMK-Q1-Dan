@@ -59,10 +59,8 @@ tap_dance_action_t tap_dance_actions[] = {
 // Setup Custom tapping terms
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
-        case TD(TD_RSFT_CAPS):
-            return  200;
-        case TD(TD_HOME_END):
-            return  200;
+        case LCTL_T(KC_ESC):
+            return  1000;
         default:
             return TAPPING_TERM;
     }
