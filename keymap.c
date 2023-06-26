@@ -34,7 +34,8 @@ enum {
 
 bool process_record_user(uint16_t keycode, keyrecord_t* record) {
     switch (keycode) {
-        case RGB_RESET:  // Sets the RGB Matrix mode back to the default
+        case RGB_RESET:  // Sets the RGB Matrix mode back to the default.
+                         // This should match values in the config.h file
             if (record->event.pressed) {
                 rgb_matrix_mode(RGB_MATRIX_ALPHAS_MODS);
                 rgb_matrix_sethsv(21, 255, 255);
@@ -60,7 +61,7 @@ tap_dance_action_t tap_dance_actions[] = {
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LCTL_T(KC_ESC):
-            return  1000;
+            return  10000;
         default:
             return TAPPING_TERM;
     }
