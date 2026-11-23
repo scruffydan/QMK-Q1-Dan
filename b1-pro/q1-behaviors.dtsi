@@ -1,0 +1,28 @@
+/ {
+    behaviors {
+        q1_ctrl_escape: q1_ctrl_escape {
+            compatible = "zmk,behavior-hold-tap";
+            label = "Q1_CTRL_ESCAPE";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <10000>;
+            bindings = <&kp>, <&kp>;
+        };
+
+        q1_shift_caps: q1_shift_caps {
+            compatible = "zmk,behavior-tap-dance";
+            label = "Q1_SHIFT_CAPS";
+            #binding-cells = <1>;
+            tapping-term-ms = <200>;
+            bindings = <&kp RSHFT>, <&kp CLCK>;
+        };
+
+        q1_home_end: q1_home_end {
+            compatible = "zmk,behavior-tap-dance";
+            label = "Q1_HOME_END";
+            #binding-cells = <1>;
+            tapping-term-ms = <200>;
+            bindings = <&kp HOME>, <&kp END>;
+        };
+    };
+};
