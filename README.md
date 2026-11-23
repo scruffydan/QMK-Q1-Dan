@@ -1,4 +1,4 @@
-# QMK-Q1-Dan
+# keyboard-firmware
 
 Firmware keymaps for two Keychron keyboards.
 
