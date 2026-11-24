@@ -1,19 +1,17 @@
 # Q1 key bindings on the Keychron B1 Pro
 
-The port starts from the stock keymap for your B1 Pro revision. It keeps
-the physical Mac/Windows and connection switches, Bluetooth pairing,
-and the stock function rows and shortcuts.
+The B1 Pro uses the Q1's typing shortcuts on both the Mac and Win layouts.
+Use the physical **Mac/Win** switch to select the layout and the connection
+switch to select Cable, Bluetooth, or 2.4 GHz.
 
-| Key | Output in macOS and Windows modes |
+| Key | Output in both layouts |
 | --- | --- |
 | Caps Lock | Tap for Escape. Press another key while holding it for Left Ctrl, or hold it alone for 10 seconds. |
 | Right Shift | Single tap or hold for Right Shift. Double-tap within 200 ms for Caps Lock. |
 | Fn + Left | Single tap for Home. Double-tap within 200 ms for End. |
 
-The **Mac/Win switch** selects the base layout. **Fn + Right** still sends
-End. The Q1's RGB controls, knob controls, and software NKRO and GUI-lock
-toggles are specific to the Q1 configuration. Keychron's stock Fn shortcuts
-remain available on the B1 Pro.
+**Fn + Right** sends End. The keymap uses the function rows and wireless
+pairing shortcuts for the selected B1 Pro revision.
 
 ## Identify the keyboard
 
@@ -38,9 +36,10 @@ The generator supports the six PIDs in this table. Keychron also lists
 
 ## Build
 
-Use Python 3, West, and a Zephyr toolchain compatible with the fork's
-Zephyr 3.2 base. For a fresh workspace, clone the Keychron fork and apply
-its bundled 2.4 GHz patch as shown in
+Use Python 3, West, CMake, Ninja, and a toolchain compatible with Zephyr 3.2.
+Zephyr SDK 0.15.2 works on Apple Silicon macOS. You can install West and the
+Python dependencies in a virtual environment. For a fresh build, clone the
+Keychron fork and apply its bundled 2.4 GHz patch as shown in
 [Keychron's build instructions](https://github.com/Keychron/zmk/tree/c284513085c005edf5f9a52b28c8090cc6ed01d2#readme).
 
 ```sh
@@ -73,11 +72,37 @@ keymap=$(python3 b1-pro/prepare-keymap.py --pid "$pid" --zmk "$zmk" --output "$c
         -DSHIELD="$(basename "$keymap" .keymap)" -DKEYMAP_FILE="$keymap" -DZMK_CONFIG="$config")
 ```
 
-The expected image is `$config/build/zephyr/zmk.uf2`. Save the stock firmware
-for the same PID and back up any existing Launcher remaps before flashing.
-Launcher can reload earlier saved layer assignments after an update.
-Check all three bindings in both OS modes after flashing and after a power
-cycle. Also verify USB, Bluetooth, and 2.4 GHz connections.
+The build produces `$config/build/zephyr/zmk.uf2`.
+
+## Install and recover
+
+1. Save the stock UF2 for your PID and use **Keymap → Export** in Launcher to
+   save your current layers. Export macros separately if you use them.
+2. With USB connected and the switches set to **Cable** and **Win**, hold
+   **Fn + minus** for three seconds to enter the bootloader. This shortcut
+   requires the bootloader assignment in the Win Fn layer. The firmware also
+   supports Launcher's bootloader command over USB.
+3. Copy the matching UF2 to the `NRF52BOOT` volume. The volume ejects as the
+   keyboard reboots. Use the matching stock UF2 in the same way for recovery.
+   After restoring stock firmware, import the keymap backup for stock firmware.
+   [Keychron's flashing guide](https://www.keychron.com/blogs/archived/how-to-use-the-launcher-web-app-or-manually-flash-firmware-for-your-b-pro-series-keyboard)
+4. Reconnect in Launcher and check both layouts. When restoring saved remaps,
+   keep the new bindings in the import file. A full import replaces the saved
+   layer assignments. Restart the keyboard and check that the assignments stick.
+
+Launcher may display the three bindings as `CUSTOM(64)`, `CUSTOM(65)`,
+and `CUSTOM(66)`. Their export codes are `0x7E40` for Caps Lock,
+`0x7E41` for Right Shift, and `0x7E42` for Fn + Left. Use each code in
+both OS layouts. On the `0x0711` target, preserve code `0x7E03` on **minus**
+in the Win Fn layer to keep **Fn + minus** available for recovery. The compiled
+default for that slot is transparent.
+
+## Verified hardware
+
+On the ANSI `0x0711` model, all three shortcuts work over USB in both layouts
+and over Bluetooth in the Mac layout. The four Launcher layers, including
+the saved recovery shortcut, persist across a power cycle. Physical 2.4 GHz
+operation and the other hardware revisions remain unverified.
 
 ## Test Launcher persistence
 
