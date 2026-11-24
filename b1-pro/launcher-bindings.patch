@@ -1,0 +1,57 @@
+diff --git a/app/include/dt-bindings/zmk/q1-launcher.h b/app/include/dt-bindings/zmk/q1-launcher.h
+new file mode 100644
+index 0000000..e6f4287
+--- /dev/null
++++ b/app/include/dt-bindings/zmk/q1-launcher.h
+@@ -0,0 +1,6 @@
++/* Behavior labels shared by the B1 Pro keymap and Launcher codec. */
++#pragma once
++
++#define Q1_CTRL_ESCAPE_LABEL "Q1_CTRL_ESCAPE"
++#define Q1_SHIFT_CAPS_LABEL  "Q1_SHIFT_CAPS"
++#define Q1_HOME_END_LABEL    "Q1_HOME_END"
+diff --git a/app/src/launcher/map_keycode.c b/app/src/launcher/map_keycode.c
+index 9d8d8c9..0e62e4d 100644
+--- a/app/src/launcher/map_keycode.c
++++ b/app/src/launcher/map_keycode.c
+@@ -1,4 +1,6 @@
+
++#include <string.h>
++#include <dt-bindings/zmk/q1-launcher.h>
+ #include "launcher.h"
+ #include "keycodes.h"
+ #include <zmk/behavior.h>
+@@ -259,6 +261,18 @@ void set_zmk_keymap(uint8_t layer,uint8_t row ,uint8_t column ,uint16_t keycode)
+             binding.behavior_dev="KEY_PRESS";//"&kp";
+             binding.param1 = keycode|(HID_USAGE_GEN_BUTTON<<16);
+             break;
++        /* Stable IDs in the Launcher user range; the tap dances use param1=0. */
++        case QK_USER_0:
++            binding.behavior_dev = Q1_CTRL_ESCAPE_LABEL;
++            binding.param1 = LCTRL;
++            binding.param2 = ESC;
++            break;
++        case QK_USER_1:
++            binding.behavior_dev = Q1_SHIFT_CAPS_LABEL;
++            break;
++        case QK_USER_2:
++            binding.behavior_dev = Q1_HOME_END_LABEL;
++            break;
+         case KC_NO:
+             binding.behavior_dev="NONE";//"&none";
+             break;
+@@ -494,7 +508,13 @@ void generate_via_keymaps(void)
+                  {
+                     struct zmk_behavior_binding * binding =get_zmk_keymap(layer,position);
+                     char * behavior_dev=binding->behavior_dev;
+-                    if(memcmp(behavior_dev,"KEY_PRESS",9)==0)//&kp
++                    if (strcmp(behavior_dev, Q1_CTRL_ESCAPE_LABEL) == 0) {
++                        gen_via_keymaps[layer][row][column] = QK_USER_0;
++                    } else if (strcmp(behavior_dev, Q1_SHIFT_CAPS_LABEL) == 0) {
++                        gen_via_keymaps[layer][row][column] = QK_USER_1;
++                    } else if (strcmp(behavior_dev, Q1_HOME_END_LABEL) == 0) {
++                        gen_via_keymaps[layer][row][column] = QK_USER_2;
++                    } else if(memcmp(behavior_dev,"KEY_PRESS",9)==0)//&kp
+                     {
+                         uint16_t keycode= binding->param1 &0xffff;
+                         uint8_t page = binding->param1 >>16 &0xff;

@@ -52,31 +52,39 @@ west update
 git -C zephyr am "$PWD/0001-esb-nrf-fix.patch"
 ```
 
-From the root of this repository, replace the example PID and shield with the
-matching pair above. Set `zmk` to the absolute path of the Keychron ZMK
-checkout.
+From the root of this repository, set `zmk` to the absolute path of your
+Keychron checkout and apply the Launcher patch once. It assigns a stable
+numeric code to each Q1 behavior so Launcher can save and restore it.
 
 ```sh
 zmk=/absolute/path/to/keychron-zmk
-pid=0x0711
-shield=keychron_b1_us
-config=$(mktemp -d)
-
-python3 b1-pro/prepare-keymap.py --pid "$pid" --zmk "$zmk" --output "$config"
+git -C "$zmk" apply "$PWD/b1-pro/launcher-bindings.patch"
 ```
 
-The generator prints the path to `$config/$shield.keymap`. Using a new
-directory for each build keeps generated keymaps separate and prevents an old
-keymap from being built after a failed generation.
-
-Then run this in the same shell. The `cd` runs West from inside its workspace.
+Set `pid` to the USB PID you read from the keyboard. The generator selects
+the shield and produces its keymap. The build passes that exact file to West.
+Run these commands together in the same shell.
 
 ```sh
-(cd "$zmk" && west build -s app -d "$config/build" -b keychron -- \
-    -DSHIELD="$shield" -DZMK_CONFIG="$config")
+pid=0x0711
+config=$(mktemp -d)
+keymap=$(python3 b1-pro/prepare-keymap.py --pid "$pid" --zmk "$zmk" --output "$config") &&
+    (cd "$zmk" && west build -s app -d "$config/build" -b keychron -- \
+        -DSHIELD="$(basename "$keymap" .keymap)" -DKEYMAP_FILE="$keymap" -DZMK_CONFIG="$config")
 ```
 
 The expected image is `$config/build/zephyr/zmk.uf2`. Save the stock firmware
-for the same PID before flashing. After flashing a custom build, check all
-three custom bindings in both OS modes and verify USB, Bluetooth, and 2.4 GHz
-connections.
+for the same PID and back up any existing Launcher remaps before flashing.
+Launcher can reload earlier saved layer assignments after an update.
+Check all three bindings in both OS modes after flashing and after a power
+cycle. Also verify USB, Bluetooth, and 2.4 GHz connections.
+
+## Test Launcher persistence
+
+With Python packages `pyelftools` and `unicorn` installed, run the following
+from the root of this repository. The test runs the built firmware’s Launcher
+reset, save, and restore routines with emulated flash storage.
+
+```sh
+python3 b1-pro/tests/launcher-roundtrip.py "$config/build/zephyr/zmk.elf"
+```
