@@ -13,6 +13,11 @@ switch to select Cable, Bluetooth, or 2.4 GHz.
 **Fn + Right** sends End. The keymap uses the function rows and wireless
 pairing shortcuts for the selected B1 Pro revision.
 
+Caps Lock gives Ctrl only once you press another key, so Ctrl + mouse click
+does not work with it. Use Left Ctrl instead. After a single tap of
+**Fn + Left**, Home is sent 200 ms later. If you release Fn and press Left
+again before then, the keyboard sends Left first and then Home.
+
 ## Identify the keyboard
 
 Connect the keyboard directly over USB in Cable mode. In
@@ -79,8 +84,8 @@ The build produces `$config/build/zephyr/zmk.uf2`.
 1. Save the stock UF2 for your PID and use **Keymap → Export** in Launcher to
    save your current layers. Export macros separately if you use them.
 2. With USB connected and the switches set to **Cable** and **Win**, hold
-   **Fn + minus** for three seconds to enter the bootloader. This shortcut
-   requires the bootloader assignment in the Win Fn layer. The firmware also
+   **Fn + minus** for three seconds to enter the bootloader. The generated
+   keymap assigns this shortcut on every supported PID. The firmware also
    supports Launcher's bootloader command over USB.
 3. Copy the matching UF2 to the `NRF52BOOT` volume. The volume ejects as the
    keyboard reboots. Use the matching stock UF2 in the same way for recovery.
@@ -93,9 +98,10 @@ The build produces `$config/build/zephyr/zmk.uf2`.
 Launcher may display the three bindings as `CUSTOM(64)`, `CUSTOM(65)`,
 and `CUSTOM(66)`. Their export codes are `0x7E40` for Caps Lock,
 `0x7E41` for Right Shift, and `0x7E42` for Fn + Left. Use each code in
-both OS layouts. On the `0x0711` target, preserve code `0x7E03` on **minus**
-in the Win Fn layer to keep **Fn + minus** available for recovery. The compiled
-default for that slot is transparent.
+both OS layouts. Keep code `0x7E03` on **minus** in the Win Fn layer so
+**Fn + minus** stays available for recovery. A Launcher keymap reset restores
+it. Keychron's source leaves that slot transparent on `0x0711` and `0x0712`,
+so the generator adds it there.
 
 ## Verified hardware
 
