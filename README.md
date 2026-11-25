@@ -66,3 +66,10 @@ for the selected hardware revision. The physical Mac/Win switch selects the
 layout, and the function row and wireless pairing shortcuts follow that
 revision's stock keymap. See the [B1 Pro guide](b1-pro/README.md#identify-the-keyboard)
 to match your keyboard's USB PID to its revision and layout.
+
+- A single **Fn + Left** tap sends Home after 200 ms. If you release Fn and
+  press Left again during that window, Left is sent before Home.
+- For recovery, connect over USB, set the switches to **Cable** and **Win**,
+  and hold **Fn + minus** for three seconds to enter the bootloader. This
+  binding is built into the keymap for all six supported PIDs, and a Launcher
+  keymap reset restores it. See [Install and recover](b1-pro/README.md#install-and-recover).
