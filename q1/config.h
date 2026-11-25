@@ -3,6 +3,8 @@
 #define TAPPING_TERM_PER_KEY
 // https://docs.qmk.fm/#/tap_hold?id=tap-or-hold-decision-modes
 #define HOLD_ON_OTHER_KEY_PRESS
+// Holding Caps Lock right after tapping it gives Ctrl, not a repeating Escape
+#define QUICK_TAP_TERM 0
 
 // NKRO off by default
 #undef FORCE_NKRO
