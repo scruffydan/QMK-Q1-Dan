@@ -66,13 +66,17 @@ def check(elf):
     storage = {}
     board = Firmware(elf, storage)
     defaults = board.bindings()
+    bootloader = ("lp_bootloader", 0, 0)
     codes = {
         ("Q1_CTRL_ESCAPE", 0x700E0, 0x70029): 0x7E40,
         ("Q1_SHIFT_CAPS", 0, 0): 0x7E41,
         ("Q1_HOME_END", 0, 0): 0x7E42,
+        bootloader: 0x7E03,
     }
+    # Each Q1 binding is in both layouts. The bootloader is on Win Fn + minus only.
     for binding in codes:
-        assert defaults.count(binding) == 2, binding
+        assert defaults.count(binding) == (1 if binding == bootloader else 2), binding
+    assert defaults.index(bootloader) // (len(defaults) // 4) == 3, "bootloader layer"
 
     board.call("generate_via_keymaps")
     board.call("dynamic_keymap_reset", 0)
@@ -91,7 +95,7 @@ def check(elf):
             saved = storage[f"via_ee/keymaps/{layer}"]
             assert struct.unpack_from(">H", saved, 2 * cell)[0] == codes[binding]
 
-    # Cycle the three encoded assignments in the saved layers. Changed positions
+    # Cycle the four encoded assignments in the saved layers. Changed positions
     # force the next boot to decode each ID instead of retaining compiled defaults.
     bindings = list(codes)
     rotated = dict(zip(bindings, bindings[1:] + bindings[:1]))
